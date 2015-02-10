@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Wang",
+    "location": "earth"
+  },
+  {
+    "name": "呵呵",
+    "real": false
+  },
+  {
+    "name": "Lee",
+    "birthday": "2000-10-01"
+  }
+]
