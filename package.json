@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/lxdcn/sql-json/issues"
   },
-  "homepage": "https://github.com/lxdcn/sql-json"
+  "homepage": "https://github.com/lxdcn/sql-json",
+  "devDependencies": {
+    "chai": "^2.0.0"
+  }
 }
