@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/lxdcn/sql-json",
   "devDependencies": {
-    "chai": "^2.0.0"
+    "chai": "^2.0.0",
+    "underscore": "^1.7.0"
   }
 }
