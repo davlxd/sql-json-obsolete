@@ -12,8 +12,8 @@ describe('Check BNF table', function(){
 })
 
 
-describe('Precompile table', function(){
-  it('elimination left recursion', function(){
-    parser.precompile();
-  })
-})
+// describe('Precompile table', function(){
+//   it('elimination left recursion', function(){
+//     parser.precompile();
+//   })
+// })
