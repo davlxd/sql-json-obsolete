@@ -1,13 +1,27 @@
-var Lexer = require('../lib/lexer');
+var Parser = require('../lib/parser');
+var sqlBnf = require('../lib/sqlbnf');
 var assert  = require('assert');
 var _  = require('underscore');
-var parser = require('../lib/parser');
 var chai = require('chai');
 var expect = chai.expect;
 
+var yaccRules = {
+  'E': [['E', '+', 'T'],
+        ['T'],
+       ],
+  'T': [['T', '*', 'F'],
+        ['F']
+       ],
+  'F': [['(', 'E', ')'],
+        ['id']
+       ]
+};
+
 describe('Check BNF table', function(){
   it('check if any nonterminal underivable', function(){
-    parser.check();
+     var parser = new Parser(yaccRules);
+    //var parser = new Parser(sqlBnf.yaccRules);
+    parser.items();
   })
 })
 
