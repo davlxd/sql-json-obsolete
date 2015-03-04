@@ -21,9 +21,14 @@ var yaccRules = [
   },
 ];
 
+var tokens = [
+  '*', '+', 'id', '(', ')'
+];
+
 describe('verify CLOSURE', function(){
   before(function(){
     bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
     parser.__set__('bnf', bnf);
   })
 

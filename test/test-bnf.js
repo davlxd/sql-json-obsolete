@@ -12,7 +12,7 @@ describe('Mock yaccRules', function(){
               {'expr': ['T']}]
     },
     {'head': 'T',
-     'body': [{'expr': ['T', '+', 'F']},
+     'body': [{'expr': ['T', '*', 'F']},
               {'expr': ['F']}]
     },
     {'head': 'F',
@@ -21,9 +21,19 @@ describe('Mock yaccRules', function(){
     }
   ];
 
+  var tokens = [
+    '*', '+', 'id', '(', ')'
+  ];
+
   before(function(){
     bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
   })
+
+  it('test symbols', function(done){
+    expect(bnf.symbols()).to.have.length(8);
+    done();
+  });
 
   it('test cloneRule and getRule', function(done){
     var clonedRule = bnf.cloneRule(bnf.getRule('T'));
