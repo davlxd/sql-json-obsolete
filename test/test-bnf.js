@@ -70,7 +70,21 @@ describe('Mock yaccRules', function(){
     var diff = bnf.bodyDiffFirst(altered.body, origin.body);
     expect(diff).to.eql([ { expr: [ 'E', '+', 'T' ], dotIndex: 1 } ]);
     done();
-  });
+  })
+
+  it('test itemSetEqual and descendant', function(done){
+    var itemSet0 = [];
+    var itemSet1 = [];
+    itemSet0.push(bnf.cloneRule(yaccRules[0]));
+    itemSet0.push(bnf.cloneRule(yaccRules[1]));
+    itemSet1.push(bnf.cloneRule(yaccRules[0]));
+    itemSet1.push(bnf.cloneRule(yaccRules[1]));
+
+    expect(bnf.itemSetEqual(itemSet0, itemSet1)).to.be.true;
+    itemSet1[1].body[1].expr[0] = 'Z';
+    expect(bnf.itemSetEqual(itemSet0, itemSet1)).to.be.false;
+    done();
+  })
 
 
 })
