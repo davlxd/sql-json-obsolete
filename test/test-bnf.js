@@ -86,5 +86,31 @@ describe('Mock yaccRules', function(){
     done();
   })
 
+  it('elimate left recursion', function(done){
+    var nonLeftRecursionYaccRules = bnf.__get__('nonLeftRecursion')();
+    var expectNonLeftReucurYaccRules = [
+      {'head': 'E',
+       'body': [{'expr': ['T', 'E_']}]
+      },
+      {'head': 'E_',
+       'body': [{'expr': ['+', 'T', 'E_']},
+                {'expr': []}]
+      },
+      {'head': 'T',
+       'body': [{'expr': ['F', 'T_']}]
+      },
+      {'head': 'T_',
+       'body': [{'expr': ['*', 'F', 'T_']},
+                {'expr': []}]
+      },
+      {'head': 'F',
+       'body': [{'expr': ['(', 'E', ')']},
+                {'expr': ['id']}]
+      }
+    ];
 
+    expect(nonLeftRecursionYaccRules).to.eql(expectNonLeftReucurYaccRules);
+    done();
+  })
 })
+
