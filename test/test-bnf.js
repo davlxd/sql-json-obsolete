@@ -4,7 +4,7 @@ var assert  = require('assert');
 var chai = require('chai');
 var expect = chai.expect;
 
-describe('Mock yaccRules', function(){
+describe('rule fetch & compare routines', function(){
 
   var yaccRules = [
     {'head': 'E',
@@ -86,6 +86,34 @@ describe('Mock yaccRules', function(){
     done();
   })
 
+})
+
+
+describe('first & follow', function(){
+  var yaccRules = [
+    {'head': 'E',
+     'body': [{'expr': ['E', '+', 'T']},
+              {'expr': ['T']}]
+    },
+    {'head': 'T',
+     'body': [{'expr': ['T', '*', 'F']},
+              {'expr': ['F']}]
+    },
+    {'head': 'F',
+     'body': [{'expr': ['(', 'E', ')']},
+              {'expr': ['id']}]
+    }
+  ];
+
+  var tokens = [
+    '*', '+', 'id', '(', ')'
+  ];
+
+  before(function(){
+    bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
+  })
+
   it('elimate left recursion', function(done){
     var nonLeftRecursionYaccRules = bnf.__get__('nonLeftRecursion')();
     var expectNonLeftReucurYaccRules = [
@@ -110,6 +138,23 @@ describe('Mock yaccRules', function(){
     ];
 
     expect(nonLeftRecursionYaccRules).to.eql(expectNonLeftReucurYaccRules);
+    done();
+  })
+
+  it('generate First table', function(done){
+    var firstTable = bnf.__get__('generateFirstTable')();
+    var expectFirstTable =
+      { '*': [ '*' ],
+        '+': [ '+' ],
+        'id': [ 'id' ],
+        '(': [ '(' ],
+        ')': [ ')' ],
+        'E': [ '(', 'id' ],
+        'T': [ '(', 'id' ],
+        'F': [ '(', 'id' ]
+      };
+
+    expect(firstTable).to.eql(expectFirstTable);
     done();
   })
 })
