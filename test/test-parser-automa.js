@@ -22,7 +22,7 @@ var yaccRules = [
 ];
 
 var tokens = [
-  '*', '+', 'id', '(', ')'
+  '+', '*', '(', ')', 'id'
 ];
 
 describe('verify CLOSURE', function(){

@@ -22,10 +22,10 @@ var yaccRules = [
 ];
 
 var tokens = [
-  '*', '+', 'id', '(', ')'
+  '+', '*', '(', ')', 'id'
 ];
 
-describe('verify items()', function(){
+describe('blah', function(){
 
   var itemSetArray = [];
 
@@ -51,10 +51,29 @@ describe('verify items()', function(){
   it('verify items', function(){
     var collection = parser.items();
     expect(collection).to.have.length(12);
-    
-    itemSetArray.forEach(function(itemSet){
-      expect(parser.collectionContains(collection, itemSet)).to.be.true;      
-    });
+
+
+    // collection.forEach(function(itemSet, index){
+    //   expect(bnf.itemSetEqual(itemSet, itemSetArray[index])).to.be.true;
+    // });
+    expect(bnf.itemSetEqual(collection[0], itemSetArray[0])).to.be.true;
+    expect(bnf.itemSetEqual(collection[1], itemSetArray[1])).to.be.true;
+    expect(bnf.itemSetEqual(collection[2], itemSetArray[2])).to.be.true;
+    expect(bnf.itemSetEqual(collection[3], itemSetArray[3])).to.be.true;
+    expect(bnf.itemSetEqual(collection[4], itemSetArray[4])).to.be.true;
+    expect(bnf.itemSetEqual(collection[5], itemSetArray[5])).to.be.true;
+    expect(bnf.itemSetEqual(collection[6], itemSetArray[6])).to.be.true;
+    expect(bnf.itemSetEqual(collection[7], itemSetArray[7])).to.be.true;
+    expect(bnf.itemSetEqual(collection[8], itemSetArray[8])).to.be.true;
+    expect(bnf.itemSetEqual(collection[9], itemSetArray[9])).to.be.true;
+    expect(bnf.itemSetEqual(collection[10], itemSetArray[10])).to.be.true;
+    expect(bnf.itemSetEqual(collection[11], itemSetArray[11])).to.be.true;
+
   })
+
+  it('SLR parsing table', function(){
+    parser.slrParsingTable();
+  })
+
 })
 
