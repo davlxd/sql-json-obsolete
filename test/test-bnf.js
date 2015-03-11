@@ -150,12 +150,29 @@ describe('first & follow', function(){
         '(': [ '(' ],
         ')': [ ')' ],
         'E': [ '(', 'id' ],
+        'E_': [ '+', '' ],
         'T': [ '(', 'id' ],
+        'T_': [ '*', '' ],
         'F': [ '(', 'id' ]
       };
 
     expect(firstTable).to.eql(expectFirstTable);
     done();
   })
+
+  it('generate Follow table', function(done){
+    var followTable = bnf.__get__('generateFollowTable')();
+    var expectFollowTable =
+      { 'E': [ '$', ')' ],
+        'E_': [ '$', ')' ],
+        'T': [ '+', '$', ')' ],
+        'T_': [ '+', '$', ')' ],
+        'F': [ '*', '+', '$', ')' ]
+      };
+
+    expect(followTable).to.eql(expectFollowTable);
+    done();
+  })
+
 })
 
