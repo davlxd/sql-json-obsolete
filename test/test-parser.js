@@ -72,8 +72,84 @@ describe('blah', function(){
   })
 
   it('SLR parsing table', function(){
-    parser.slrParsingTable();
-  })
+    var actionTable = parser.slrParsingTable()[0];
+    var gotoTable = parser.slrParsingTable()[1];
 
+    expect(actionTable).to.eql(
+      [
+        {
+          '(': 'shift 4', id: 'shift 5'
+        },
+        {
+          '$': 'accept', '+': 'shift 6'
+        },
+        {
+          '$': { head: 'E', body: ['T'] },
+          '+': { head: 'E', body: ['T'] },
+          ')': { head: 'E', body: ['T'] },
+          '*': 'shift 7'
+        },
+        {
+          '$': { head: 'T', body: ['F'] },
+          '+': { head: 'T', body: ['F'] },
+          ')': { head: 'T', body: ['F'] },
+          '*': { head: 'T', body: ['F'] }
+        },
+        {
+          '(': 'shift 4', id: 'shift 5'
+        },
+        {
+          '$': { head: 'F', body: ['id'] },
+          '+': { head: 'F', body: ['id'] },
+          ')': { head: 'F', body: ['id'] },
+          '*': { head: 'F', body: ['id'] }
+        },
+        {
+          '(': 'shift 4', id: 'shift 5'
+        },
+        {
+          '(': 'shift 4', id: 'shift 5'
+        },
+        {
+          ')': 'shift 11', '+': 'shift 6'
+        },
+        {
+          '$': { head: 'E', body: ['E', '+', 'T'] },
+          '+': { head: 'E', body: ['E', '+', 'T'] },
+          ')': { head: 'E', body: ['E', '+', 'T'] },
+          '*': 'shift 7'
+        },
+        {
+          '$': { head: 'T', body: ['T', '*', 'F'] },
+          '+': { head: 'T', body: ['T', '*', 'F'] },
+          ')': { head: 'T', body: ['T', '*', 'F'] },
+          '*': { head: 'T', body: ['T', '*', 'F'] }
+        },
+        {
+          '$': { head: 'F', body: ['(', 'E', ')'] },
+          '+': { head: 'F', body: ['(', 'E', ')'] },
+          ')': { head: 'F', body: ['(', 'E', ')'] },
+          '*': { head: 'F', body: ['(', 'E', ')'] }
+        }
+      ]
+    );
+
+    expect(gotoTable).to.eql(
+      [
+        { E: '1', T: '2', F: '3' },
+        {},
+        {},
+        {},
+        { E: '8', T: '2', F: '3' },
+        {},
+        { T: '9', F: '3' },
+        { F: '10' },
+        {},
+        {},
+        {},
+        {}
+      ]
+    );
+  })
 })
 
