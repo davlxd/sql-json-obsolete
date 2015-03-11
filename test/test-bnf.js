@@ -163,11 +163,9 @@ describe('first & follow', function(){
   it('generate Follow table', function(done){
     var followTable = bnf.__get__('generateFollowTable')();
     var expectFollowTable =
-      { 'E': [ '$', ')' ],
-        'E_': [ '$', ')' ],
-        'T': [ '+', '$', ')' ],
-        'T_': [ '+', '$', ')' ],
-        'F': [ '*', '+', '$', ')' ]
+      { 'E': [ '$', '+', ')' ],
+        'T': [ '$', '+', ')', '*' ],
+        'F': [ '$', '+', ')', '*' ]
       };
 
     expect(followTable).to.eql(expectFollowTable);
