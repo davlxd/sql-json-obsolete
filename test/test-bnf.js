@@ -160,6 +160,13 @@ describe('first & follow', function(){
     done();
   })
 
+  it('first(array) function', function(done){
+    expect(bnf.first(['E_', '*'])).to.eql([ '+', '', '*' ]);
+    expect(bnf.first(['E', '*'])).to.eql([ '(', 'id']);
+    done();
+  })
+
+
   it('generate Follow table', function(done){
     var followTable = bnf.__get__('generateFollowTable')();
     var expectFollowTable =
