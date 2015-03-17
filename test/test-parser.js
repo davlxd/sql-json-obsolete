@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 
 
-describe('blah', function(){
+describe('SLR', function(){
   var itemSetArray = [];
 
   before(function(){
@@ -149,3 +149,38 @@ describe('blah', function(){
   })
 })
 
+
+describe('propagation LALR', function(){
+  var itemSetArray = [];
+
+  before(function(){
+    var yaccRules = [
+      {'head': 'S',
+       'body': [{'expr': ['L', '=', 'R']},
+                {'expr': ['R']}]
+      },
+      {'head': 'L',
+       'body': [{'expr': ['*', 'R']},
+                {'expr': ['id']}]
+      },
+      {'head': 'R',
+       'body': [{'expr': ['L']}]
+      },
+    ];
+
+    var tokens = [
+      '=', '*', 'id'
+    ];
+
+    bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
+    parser.__set__('bnf', bnf);
+  })
+
+  it('verify items', function(){
+    parser.propagateLookahead();
+  })
+
+  it('LALR table', function(){
+  })
+})
