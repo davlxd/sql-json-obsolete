@@ -52,7 +52,7 @@ describe('rule fetch & compare routines', function(){
   it('test cloneRule and getRule', function(done){
     expect(bnf.augmentRule()).to.eql({
       'head': 'E_',
-      'body':[{'expr': ['E'], 'dotIndex': 0, 'lookahead': ['$']}]
+      'body':[{'expr': ['E'], 'dotIndex': 0}]
     });
     expect(bnf.yaccRules()).to.have.length(4);
     done();
@@ -181,4 +181,3 @@ describe('first & follow', function(){
   })
 
 })
-
