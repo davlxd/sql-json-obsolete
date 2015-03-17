@@ -6,30 +6,30 @@ var chai = require('chai');
 var expect = chai.expect;
 
 
-var yaccRules = [
-  {'head': 'E',
-   'body': [{'expr': ['E', '+', 'T']},
-            {'expr': ['T']}]
-  },
-  {'head': 'T',
-   'body': [{'expr': ['T', '*', 'F']},
-            {'expr': ['F']}]
-  },
-  {'head': 'F',
-   'body': [{'expr': ['(', 'E', ')']},
-            {'expr': ['id']}]
-  },
-];
-
-var tokens = [
-  '+', '*', '(', ')', 'id'
-];
 
 describe('blah', function(){
-
   var itemSetArray = [];
 
   before(function(){
+    var yaccRules = [
+      {'head': 'E',
+       'body': [{'expr': ['E', '+', 'T']},
+                {'expr': ['T']}]
+      },
+      {'head': 'T',
+       'body': [{'expr': ['T', '*', 'F']},
+                {'expr': ['F']}]
+      },
+      {'head': 'F',
+       'body': [{'expr': ['(', 'E', ')']},
+                {'expr': ['id']}]
+      },
+    ];
+
+    var tokens = [
+      '+', '*', '(', ')', 'id'
+    ];
+
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
     parser.__set__('bnf', bnf);
@@ -52,10 +52,6 @@ describe('blah', function(){
     var collection = parser.items();
     expect(collection).to.have.length(12);
 
-
-    // collection.forEach(function(itemSet, index){
-    //   expect(bnf.itemSetEqual(itemSet, itemSetArray[index])).to.be.true;
-    // });
     expect(bnf.itemSetEqual(collection[0], itemSetArray[0])).to.be.true;
     expect(bnf.itemSetEqual(collection[1], itemSetArray[1])).to.be.true;
     expect(bnf.itemSetEqual(collection[2], itemSetArray[2])).to.be.true;
