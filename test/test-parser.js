@@ -132,14 +132,14 @@ describe('SLR', function(){
 
     expect(gotoTable).to.eql(
       [
-        { E: '1', T: '2', F: '3' },
+        { 'E': 1, 'T': 2, 'F': 3 },
         {},
         {},
         {},
-        { E: '8', T: '2', F: '3' },
+        { 'E': 8, 'T': 2, 'F': 3 },
         {},
-        { T: '9', F: '3' },
-        { F: '10' },
+        { 'T': 9, 'F': 3 },
+        { 'F': 10 },
         {},
         {},
         {},
@@ -184,3 +184,4 @@ describe('propagation LALR', function(){
   it('LALR table', function(){
   })
 })
+
