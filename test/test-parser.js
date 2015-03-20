@@ -177,11 +177,54 @@ describe('propagation LALR', function(){
     parser.__set__('bnf', bnf);
   })
 
-  it('verify items', function(){
+  it('verify kernel items with propagated lookahead', function(){
     parser.propagateLookahead();
-  })
-
-  it('LALR table', function(){
+    expect(parser.propagateLookahead()).to.eql(
+      [
+        [
+          {'head':'S_',
+           'body':[{'expr':['S'],'dotIndex':0,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'S_',
+           'body':[{'expr':['S'],'dotIndex':1,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'S',
+           'body':[{'expr':['L','=','R'],'dotIndex':1,'lookahead':['$']}]},
+          {'head':'R',
+           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'S',
+           'body':[{'expr':['R'],'dotIndex':1,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'L',
+           'body':[{'expr':['*','R'],'dotIndex':1,'lookahead':['=','$']}]}
+        ],
+        [
+          {'head':'L',
+           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['=','$']}]}
+        ],
+        [
+          {'head':'S',
+           'body':[{'expr':['L','=','R'],'dotIndex':2,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'R',
+           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['=','$']}]}
+        ],
+        [
+          {'head':'L',
+           'body':[{'expr':['*','R'],'dotIndex':2,'lookahead':['=','$']}]}
+        ],
+        [
+          {'head':'S',
+           'body':[{'expr':['L','=','R'],'dotIndex':3,'lookahead':['$']}]}
+        ],
+      ]
+    );
   })
 })
 
