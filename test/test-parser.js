@@ -154,7 +154,7 @@ describe('SLR', function(){
 })
 
 
-describe('LALR', function(){
+describe('LALR propagate lookahead', function(){
   var itemSetArray = [];
 
   before(function(){
@@ -233,9 +233,80 @@ describe('LALR', function(){
       ]
     );
   })
-
-  it('LALR parsing table', function(){
-    parser.lalrParsingTable();
-  });
 })
 
+
+
+describe('LALR parsing table', function(){
+  var itemSetArray = [];
+
+  before(function(){
+    var yaccRules = [
+      {'head': 'S',
+       'body': [{'expr': ['C', 'C']}]
+      },
+      {'head': 'C',
+       'body': [{'expr': ['c', 'C']},
+                {'expr': ['d']}]
+      },
+    ];
+
+    var tokens = [
+      'd', 'c'
+    ];
+
+    bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
+    parser.__set__('bnf', bnf);
+  })
+
+  it('LALR parsing table', function(){
+    var actionTable = parser.lalrParsingTable()[0];
+    var gotoTable = parser.lalrParsingTable()[1];
+
+    expect(actionTable).to.eql(
+      [
+        {
+          'c': 'shift 4', d: 'shift 3'
+        },
+        {
+          '$': 'accept'
+        },
+        {
+          'c': 'shift 4', d: 'shift 3'
+        },
+        {
+          'c': { head: 'C', body: ['d'] },
+          'd': { head: 'C', body: ['d'] },
+          '$': { head: 'C', body: ['d'] }
+        },
+        {
+          'c': 'shift 4', d: 'shift 3'
+        },
+        {
+          '$': { head: 'S', body: ['C', 'C'] }
+        },
+        {
+          'c': { head: 'C', body: ['c', 'C'] },
+          'd': { head: 'C', body: ['c', 'C'] },
+          '$': { head: 'C', body: ['c', 'C'] }
+        }
+      ]
+    );
+
+    expect(gotoTable).to.eql(
+      [
+        { 'S': 1, 'C': 2 },
+        {},
+        { 'C': 5 },
+        {},
+        { 'C': 6 },
+        {},
+        {}
+      ]
+    );
+  })
+})
