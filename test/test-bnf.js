@@ -28,6 +28,9 @@ describe('rule fetch & compare routines', function(){
   before(function(){
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
   })
 
   it('test symbols', function(done){
@@ -112,6 +115,9 @@ describe('first & follow', function(){
   before(function(){
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
   })
 
   it('elimate left recursion', function(done){

@@ -30,6 +30,9 @@ describe('verify CLOSURE', function(){
 
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
   })
 
@@ -85,6 +88,10 @@ describe('verify GOTO', function(){
     ];
 
     bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
 
     itemSet0 = parser.closure([bnf.augmentRule()]);
@@ -331,11 +338,16 @@ describe('verify CLOSURE with lookahead', function(){
 
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
   })
 
   it('verify initial CLOSURE', function(){
-    var itemSet0 = parser.closure([bnf.augmentRule('lookahead')]);
+    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['$'];
+    var itemSet0 = parser.closure([augmentRule]);
+
 
     expect(itemSet0).to.eql(
       [
@@ -378,9 +390,13 @@ describe('verify GOTO with lookahead', function(){
 
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
 
-    itemSet0 = parser.closure([bnf.augmentRule('lookahead')]);
+    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['$'];
+    itemSet0 = parser.closure([augmentRule]);
     itemSet1 =  parser.goto(itemSet0, 'S');
     itemSet2 =  parser.goto(itemSet0, 'C');
     itemSet3 =  parser.goto(itemSet0, 'c');

@@ -32,6 +32,10 @@ describe('SLR', function(){
 
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
+
     parser.__set__('bnf', bnf);
 
     var itemSet0 = parser.closure([bnf.augmentRule()]);  itemSetArray.push(itemSet0);
@@ -150,7 +154,7 @@ describe('SLR', function(){
 })
 
 
-describe('propagation LALR', function(){
+describe('LALR', function(){
   var itemSetArray = [];
 
   before(function(){
@@ -174,6 +178,9 @@ describe('propagation LALR', function(){
 
     bnf.__set__('yaccRules', yaccRules);
     bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
   })
 
@@ -226,5 +233,9 @@ describe('propagation LALR', function(){
       ]
     );
   })
+
+  it('LALR parsing table', function(){
+    parser.lalrParsingTable();
+  });
 })
 
