@@ -135,17 +135,17 @@ describe('first & follow', function(){
     var nonLeftRecursionYaccRules = bnf.__get__('nonLeftRecursion')();
     var expectNonLeftReucurYaccRules = [
       {'head': 'E',
-       'body': [{'expr': ['T', 'E_']}]
+       'body': [{'expr': ['T', 'E~']}]
       },
-      {'head': 'E_',
-       'body': [{'expr': ['+', 'T', 'E_']},
+      {'head': 'E~',
+       'body': [{'expr': ['+', 'T', 'E~']},
                 {'expr': []}]
       },
       {'head': 'T',
-       'body': [{'expr': ['F', 'T_']}]
+       'body': [{'expr': ['F', 'T~']}]
       },
-      {'head': 'T_',
-       'body': [{'expr': ['*', 'F', 'T_']},
+      {'head': 'T~',
+       'body': [{'expr': ['*', 'F', 'T~']},
                 {'expr': []}]
       },
       {'head': 'F',
@@ -169,9 +169,9 @@ describe('first & follow', function(){
         '#': [ '#' ],
         '$': [ '$' ],
         'E': [ '(', 'id' ],
-        'E_': [ '+', '' ],
+        'E~': [ '+', '' ],
         'T': [ '(', 'id' ],
-        'T_': [ '*', '' ],
+        'T~': [ '*', '' ],
         'F': [ '(', 'id' ]
       };
 
@@ -180,7 +180,7 @@ describe('first & follow', function(){
   })
 
   it('first(array) function', function(done){
-    expect(bnf.first(['E_', '*'])).to.eql([ '+', '', '*' ]);
+    expect(bnf.first(['E~', '*'])).to.eql([ '+', '', '*' ]);
     expect(bnf.first(['E', '*'])).to.eql([ '(', 'id']);
     done();
   })

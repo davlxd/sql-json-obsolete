@@ -59,8 +59,8 @@ describe('ambiguous grammer', function(){
   it('parsing table', function(){
     var actionTable = parser.lalrParsingTable()[0];
     var gotoTable = parser.lalrParsingTable()[1];
-    console.log(actionTable);
-    console.log(gotoTable);
+    // console.log(actionTable);
+    // console.log(gotoTable);
 
     // parser.inspectCollection(parser.propagateLookahead());
     // console.log(parser.lalrParsingTable());
