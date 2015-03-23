@@ -61,7 +61,7 @@ describe('rule fetch & compare routines', function(){
     done();
   })
 
-  it('test onlyOne', function(done){
+  it('test onlyOne', function(){
     var origin = bnf.cloneRule(bnf.getRule('E'));
     origin.body[0].dotIndex = 0;
     origin.body[1].dotIndex = 0;
@@ -72,7 +72,18 @@ describe('rule fetch & compare routines', function(){
 
     var diff = bnf.bodyDiffFirst(altered.body, origin.body);
     expect(diff).to.eql([ { expr: [ 'E', '+', 'T' ], dotIndex: 1 } ]);
-    done();
+
+    var diff = bnf.bodyDiffFirst(altered.body, origin.body);
+    expect(diff).to.eql([ { expr: [ 'E', '+', 'T' ], dotIndex: 1 } ]);
+
+
+    origin.body[1].lookahead = ['#'];
+    altered.body[1].lookahead = ['#', 'a'];
+    var diff = bnf.bodyDiffFirst(altered.body, origin.body);
+    expect(diff).to.eql([ { expr: [ 'E', '+', 'T' ], dotIndex: 1 } ,
+                          { expr: [ 'T' ], dotIndex: 0, lookahead: ['#', 'a']} ]);
+
+
   })
 
   it('test itemSetEqual and descendant', function(done){
