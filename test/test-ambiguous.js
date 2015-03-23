@@ -45,7 +45,7 @@ describe('ambiguous grammer', function(){
 
   })
 
-  it('verify items', function(){
+  it('parsing table', function(){
     var actionTable = parser.lalrParsingTable()[0];
     var gotoTable = parser.lalrParsingTable()[1];
 
