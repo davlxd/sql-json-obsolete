@@ -197,7 +197,41 @@ describe('LALR propagate lookahead', function(){
     parser.__set__('bnf', bnf);
   })
 
-  it('verify kernel items with propagated lookahead', function(){
+  it('verify kernel items with propagated lookahead hehe', function(){
+    var kernels = parser.__get__('kernelItems')();
+
+    expect(parser.__get__('generatePropagateTable')(kernels)).to.eql([
+        // propagate table
+        [
+          [[[[1,0,0],[2,0,0],[3,0,0],[4,0,0],[5,0,0],[2,1,0]]]],
+          [[[]]],
+          [[[[6,0,0]]],[[]]],
+          [[[]]],[
+            [[[8,0,0],[4,0,0],[5,0,0],[7,0,0]]]],
+          [[[]]],
+          [[[[9,0,0],[7,0,0],[4,0,0],[5,0,0]]]],
+          [[[]]],
+          [[[]]],
+          [[[]]]
+
+        ]
+        ,
+        // initial lookahead table
+        [
+          [[[]]],
+          [[[]]],
+          [[[]],[[]]],
+          [[[]]],
+          [[["="]]],
+          [[["="]]],
+          [[[]]],
+          [[[]]],
+          [[[]]],
+          [[[]]]
+        ]
+
+      ]);
+
     expect(parser.propagateLookahead().concat()).to.eql(
       [
         [
@@ -294,8 +328,43 @@ describe('LALR propagate lookahead case 2', function(){
   })
 
   it('verify kernel items with propagated lookahead case 2', function(){
-// parser.inspectCollection(parser.items());
-parser.inspectCollection(parser.propagateLookahead());
+    var kernels = parser.__get__('kernelItems')();
+    expect(parser.__get__('generatePropagateTable')(kernels)).to.eql([
+      // propagate table
+      [
+        [[[[1,0,0],[1,1,0],[2,0,0],[2,1,0],[3,0,0],[4,0,0],[5,0,0]]]],
+        [[[]],[[[6,0,0]]]],
+        [[[]],[[[7,0,0]]]],
+        [[[]]],
+        [[[[8,0,0]]]],
+        [[[]]],
+        [[[[9,0,0],[9,1,0],[3,0,0],[4,0,0],[5,0,0]]]],
+        [[[[10,0,0],[4,0,0],[5,0,0]]]],
+        [[[[11,0,0]]],[[[6,0,0]]]],
+        [[[]],
+         [[[7,0,0]]]],
+        [[[]]],
+        [[[]]]
+      ]
+      ,
+      // initial lookahead table
+      [
+	      [[[]]],
+	      [[[]],[["+"]]],
+	      [[["+",")"]],[["+","*",")"]]],
+	      [[["+","*",")"]]],
+	      [[["+","*",")"]]],
+	      [[["+","*",")"]]],
+	      [[[]]],
+	      [[[]]],
+	      [[[]],[[")","+"]]],
+	      [[[]],[["*"]]],
+	      [[[]]],
+	      [[[]]]
+      ]
+    ]);
+parser.propagateLookahead();
+
     // expect(parser.propagateLookahead()).to.eql(
     //   [
     //     [
