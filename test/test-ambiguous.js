@@ -61,10 +61,10 @@ describe('ambiguous grammer', function(){
           '(': 'shift 2', 'id': 'shift 3'
         },
         {
-          '$': { head: 'E', body: ['id'] },
-          ')': { head: 'E', body: ['id'] },
-          '*': { head: 'E', body: ['id'] },
-          '+': { head: 'E', body: ['id'] }
+          '$': 'reduce 1,3',
+          ')': 'reduce 1,3',
+          '*': 'reduce 1,3',
+          '+': 'reduce 1,3'
         },
         {
           '(': 'shift 2', 'id': 'shift 3'
@@ -76,22 +76,22 @@ describe('ambiguous grammer', function(){
           ')': 'shift 9', '+': 'shift 4', '*': 'shift 5'
         },
         {
-          '$': { head: 'E', body: ['E', '+', 'E'] },
-          ')': { head: 'E', body: ['E', '+', 'E'] },
+          '$': 'reduce 1,0',
+          ')': 'reduce 1,0',
           '*': 'shift 5',
-          '+': { head: 'E', body: ['E', '+', 'E'] }
+          '+': 'reduce 1,0'
         },
         {
-          '$': { head: 'E', body: ['E', '*', 'E'] },
-          ')': { head: 'E', body: ['E', '*', 'E'] },
-          '*': { head: 'E', body: ['E', '*', 'E'] },
-          '+': { head: 'E', body: ['E', '*', 'E'] }
+          '$': 'reduce 1,1',
+          ')': 'reduce 1,1',
+          '*': 'reduce 1,1',
+          '+': 'reduce 1,1'
         },
         {
-          '$': { head: 'E', body: ['(', 'E', ')'] },
-          ')': { head: 'E', body: ['(', 'E', ')'] },
-          '*': { head: 'E', body: ['(', 'E', ')'] },
-          '+': { head: 'E', body: ['(', 'E', ')'] }
+          '$': 'reduce 1,2',
+          ')': 'reduce 1,2',
+          '*': 'reduce 1,2',
+          '+': 'reduce 1,2'
         }
 
       ]

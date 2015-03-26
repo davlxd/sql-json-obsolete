@@ -485,20 +485,20 @@ describe('LALR parsing table', function(){
           'c': 'shift 4', d: 'shift 3'
         },
         {
-          'c': { head: 'C', body: ['d'] },
-          'd': { head: 'C', body: ['d'] },
-          '$': { head: 'C', body: ['d'] }
+          'c': 'reduce 2,1',
+          'd': 'reduce 2,1',
+          '$': 'reduce 2,1'
         },
         {
           'c': 'shift 4', d: 'shift 3'
         },
         {
-          '$': { head: 'S', body: ['C', 'C'] }
+          '$': 'reduce 1,0'
         },
         {
-          'c': { head: 'C', body: ['c', 'C'] },
-          'd': { head: 'C', body: ['c', 'C'] },
-          '$': { head: 'C', body: ['c', 'C'] }
+          'c': 'reduce 2,0',
+          'd': 'reduce 2,0',
+          '$': 'reduce 2,0'
         }
       ]
     );
