@@ -254,11 +254,11 @@ describe('LALR propagate lookahead', function(){
         ],
         [
           {'head':'L',
-           'body':[{'expr':['*','R'],'dotIndex':1,'lookahead':['=','$']}]}
+           'body':[{'expr':['*','R'],'dotIndex':1,'lookahead':['$','=']}]}
         ],
         [
           {'head':'L',
-           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['=','$']}]}
+           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$','=']}]}
         ],
         [
           {'head':'S',
@@ -266,11 +266,11 @@ describe('LALR propagate lookahead', function(){
         ],
         [
           {'head':'R',
-           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['=','$']}]}
+           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['$','=']}]}
         ],
         [
           {'head':'L',
-           'body':[{'expr':['*','R'],'dotIndex':2,'lookahead':['=','$']}]}
+           'body':[{'expr':['*','R'],'dotIndex':2,'lookahead':['$','=']}]}
         ],
         [
           {'head':'S',
@@ -363,68 +363,82 @@ describe('LALR propagate lookahead case 2', function(){
 	      [[[]]]
       ]
     ]);
-parser.propagateLookahead();
 
-    // expect(parser.propagateLookahead()).to.eql(
-    //   [
-    //     [
-    //       {'head':'E_',
-    //        'body':[{'expr':['E'],'dotIndex':0,'lookahead':['$']}]}
-    //     ],
-    //     [
-    //       {'head':'E_',
-    //        'body':[{'expr':['E'],'dotIndex':1,'lookahead':['$']}]},
-    //       {'head':'E',
-    //        'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':['$','+']}]}
-    //     ],
-    //     [
-    //       {'head':'E',
-    //        'body':[{'expr':['T'],'dotIndex':1,'lookahead':['$','+',')']}]},
-    //       {'head':'T',
-    //        'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$','+','*',')']}]}
-    //     ],
-    //     [
-    //       {'head':'T',
-    //        'body':[{'expr':['F'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'F',
-    //        'body':[{'expr':['(','E',')'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'F',
-    //        'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'E',
-    //        'body':[{'expr':['E','+','T'],'dotIndex':2,'lookahead':['$','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'T',
-    //        'body':[{'expr':['T','*','F'],'dotIndex':2,'lookahead':['$','*','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'F',
-    //        'body':[{'expr':['(','E',')'],'dotIndex':2,'lookahead':['$','*','+',')']}]},
-    //       {'head':'E',
-    //        'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':[')','+']}]}
-    //     ],
-    //     [
-    //       {'head':'F',
-    //        'body':[{'expr':['E','+','T'],'dotIndex':3,'lookahead':['$','+',')']}]},
-    //       {'head':'T',
-    //        'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$','+','*',')']}]}
-    //     ],
-    //     [
-    //       {'head':'T',
-    //        'body':[{'expr':['T','*','F'],'dotIndex':3,'lookahead':['$','*','+',')']}]}
-    //     ],
-    //     [
-    //       {'head':'F',
-    //        'body':[{'expr':['(','E',')'],'dotIndex':3,'lookahead':['$','*','+',')']}]}
-    //     ]
-    //   ]
-    // );
+    expect(parser.propagateLookahead().concat()).to.eql(
+      [
+        [
+          {'head':'E_',
+           'body':[{'expr':['E'],'dotIndex':0,'lookahead':['$']}]}
+        ],
+        [
+          {'head':'E_',
+           'body':[{'expr':['E'],'dotIndex':1,'lookahead':['$']}]},
+          {'head':'E',
+           'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':['$','+']}]}
+        ],
+        [
+          {'head':'E',
+           'body':[{'expr':['T'],'dotIndex':1,'lookahead':['$',')','+']}]},
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'T',
+           'body':[{'expr':['F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['(','E',')'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'E',
+           'body':[{'expr':['E','+','T'],'dotIndex':2,'lookahead':['$',')','+']}]}
+        ],
+        [
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':2,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['(','E',')'],'dotIndex':2,'lookahead':['$',')','*','+']}]},
+          {'head':'E',
+           'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':[')','+']}]}
+        ],
+        [
+          {'head':'E',
+           'body':[{'expr':['E','+','T'],'dotIndex':3,'lookahead':['$',')','+']}]},
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':3,'lookahead':['$',')','*','+']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['(','E',')'],'dotIndex':3,'lookahead':['$',')','*','+']}]}
+        ]
+      ]
+    );
+
+    expect(parser.propagateLookahead().jumpTable).to.eql(
+      [ { E: 1, T: 2, F: 3, '(': 4, id: 5 },
+        { '+': 6 },
+        { '*': 7 },
+        {},
+        { E: 8, T: 2, F: 3, '(': 4, id: 5 },
+        {},
+        { T: 9, F: 3, '(': 4, id: 5 },
+        { F: 10, '(': 4, id: 5 },
+        { '+': 6, ')': 11 },
+        { '*': 7 },
+        {},
+        {} ]
+    );
   })
 })
 
