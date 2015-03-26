@@ -40,9 +40,18 @@ describe('SLR', function(){
   })
 
   it('parsing', function(){
-    // var actionTable = parser.lalrParsingTable()[0];
-    // var gotoTable = parser.lalrParsingTable()[1];
-    
+    // var kernels = parser.__get__('kernelItems')();
+    // console.log(kernels.jumpTable);
+
+    var actionTable = parser.lalrParsingTable()[0];
+    var gotoTable = parser.lalrParsingTable()[1];
+    parser.inspectItemSet(actionTable);
+    console.log(gotoTable);
+
+    var arr = ['id', '*', 'id', '+', 'id', '$'], index = 0;
+    parser.parsing(function(){
+      return arr[index++];
+    });
   })
 
 })
