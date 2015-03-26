@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 
 
-describe('SLR', function(){
+describe('LALR parsing', function(){
   var itemSetArray = [];
 
   before(function(){
@@ -43,15 +43,25 @@ describe('SLR', function(){
     // var kernels = parser.__get__('kernelItems')();
     // console.log(kernels.jumpTable);
 
-    var actionTable = parser.lalrParsingTable()[0];
-    var gotoTable = parser.lalrParsingTable()[1];
-    parser.inspectItemSet(actionTable);
-    console.log(gotoTable);
+    // var actionTable = parser.lalrParsingTable()[0];
+    // var gotoTable = parser.lalrParsingTable()[1];
+    // parser.inspectItemSet(actionTable);
+    // console.log(gotoTable);
 
-    var arr = ['id', '*', 'id', '+', 'id', 'EOF'], index = 0;
+    var arr = [
+      {'tag': 'id'},
+      {'tag': '*'},
+      {'tag': 'id'},
+      {'tag': '+'},
+      {'tag': 'id'},
+      {'tag': 'EOF'}
+      ];
+    var index = 0;
+
     parser.parsing(function(){
       return arr[index++];
     });
+
   })
 
 })

@@ -4,6 +4,7 @@ var parser = rewire('../lib/parser');
 var assert  = require('assert');
 var chai = require('chai');
 var expect = chai.expect;
+var sinon = require('sinon');
 
 
 
@@ -14,21 +15,49 @@ describe('ambiguous grammer', function(){
     var yaccRules = [
       {'head': 'lines',
        'body': [
-         {'expr': ['lines', 'expr', '\n']},
-         {'expr': ['lines', '\n']},
-         {'expr': []}
+         {
+           'expr': ['lines', 'expr', '\n'],
+           'semAction': function(var0, var1, var2){ console.log('=' + var1.value); }
+         },
+         {
+           'expr': ['lines', '\n']
+         },
+         {
+           'expr': []
+         }
        ]
       },
 
       {'head': 'expr',
        'body': [
-         {'expr': ['expr', '+', 'expr']},
-         {'expr': ['expr', '-', 'expr']},
-         {'expr': ['expr', '*', 'expr']},
-         {'expr': ['expr', '/', 'expr']},
-         {'expr': ['(', 'expr', ')']},
-         {'expr': ['-', 'expr'], 'prec': 'UMINUS'},
-         {'expr': ['NUMBER']}
+         {
+           'expr': ['expr', '+', 'expr'],
+           'semAction': function(var0, var1, var2){ return var0.value + var2.value; }
+         },
+         {
+           'expr': ['expr', '-', 'expr'],
+           'semAction': function(var0, var1, var2){ return var0.value - var2.value; }
+         },
+         {
+           'expr': ['expr', '*', 'expr'],
+           'semAction': function(var0, var1, var2){ return var0.value * var2.value; }
+         },
+         {
+           'expr': ['expr', '/', 'expr'],
+           'semAction': function(var0, var1, var2){ return var0.value / var2.value; }
+         },
+         {
+           'expr': ['(', 'expr', ')'],
+           'semAction': function(var0, var1, var2){ return var1.value; }
+         },
+         {
+           'expr': ['-', 'expr'], 'prec': 'UMINUS',
+           'semAction': function(var0, var1){ return - var1.value; }
+         },
+         {
+           'expr': ['NUMBER'],
+           'semAction': function(var0){ return var0.value; }
+         }
        ]
       }
     ];
@@ -56,15 +85,100 @@ describe('ambiguous grammer', function(){
 
   })
 
-  it('parsing table', function(){
-    var actionTable = parser.lalrParsingTable()[0];
-    var gotoTable = parser.lalrParsingTable()[1];
-    // console.log(actionTable);
-    // console.log(gotoTable);
+  beforeEach(function(){
+    sinon.spy(console, 'log');
+  })
 
-    // parser.inspectCollection(parser.propagateLookahead());
-    // console.log(parser.lalrParsingTable());
+  afterEach(function(){
+    console.log.restore();
+  })
 
+  it('calc 34 + 10 * 2', function(){
+
+    var arr = [
+      {'tag': 'NUMBER', 'value':34},
+      {'tag': '+'},
+      {'tag': 'NUMBER', 'value':10},
+      {'tag': '*'},
+      {'tag': 'NUMBER', 'value':2},
+      {'tag': '\n'},
+      {'tag': 'EOF'}
+    ];
+    var index = 0;
+
+    parser.parsing(function(){
+      return arr[index++];
+    });
+
+    expect(console.log.calledOnce).to.be.true;
+    expect(console.log.getCall(0).args[0]).to.equal('=54');
+
+  })
+
+  it('calc 34 / 10 * 2', function(){
+
+    var arr = [
+      {'tag': 'NUMBER', 'value':34},
+      {'tag': '/'},
+      {'tag': 'NUMBER', 'value':10},
+      {'tag': '*'},
+      {'tag': 'NUMBER', 'value':2},
+      {'tag': '\n'},
+      {'tag': 'EOF'}
+    ];
+    var index = 0;
+
+    parser.parsing(function(){
+      return arr[index++];
+    });
+
+    expect(console.log.calledOnce).to.be.true;
+    expect(console.log.getCall(0).args[0]).to.equal('=6.8');
+  })
+
+  it('calc 3 * (5 - 2)', function(){
+
+    var arr = [
+      {'tag': 'NUMBER', 'value':3},
+      {'tag': '*'},
+      {'tag': '('},
+      {'tag': 'NUMBER', 'value':5},
+      {'tag': '-'},
+      {'tag': 'NUMBER', 'value':2},
+      {'tag': ')'},
+      {'tag': '\n'},
+      {'tag': 'EOF'}
+    ];
+    var index = 0;
+
+    parser.parsing(function(){
+      return arr[index++];
+    });
+
+    expect(console.log.calledOnce).to.be.true;
+    expect(console.log.getCall(0).args[0]).to.equal('=9');
+  })
+
+  it('calc 3 + -5 / 2', function(){
+
+    var arr = [
+      {'tag': 'NUMBER', 'value':3},
+      {'tag': '+'},
+      {'tag': '-'},
+      {'tag': 'NUMBER', 'value':5},
+      {'tag': '/'},
+      {'tag': 'NUMBER', 'value':2},
+      {'tag': '\n'},
+      {'tag': 'EOF'}
+    ];
+    var index = 0;
+
+    parser.parsing(function(){
+      return arr[index++];
+    });
+
+    expect(console.log.calledOnce).to.be.true;
+    expect(console.log.getCall(0).args[0]).to.equal('=6.8');
   })
 
 })
