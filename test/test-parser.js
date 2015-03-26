@@ -70,7 +70,7 @@ describe('SLR', function(){
     expect(bnf.itemSetEqual(collection[10], itemSetArray[10])).to.be.true;
     expect(bnf.itemSetEqual(collection[11], itemSetArray[11])).to.be.true;
 
-    expect(collection.gotoTable).to.eql(
+    expect(collection.jumpTable).to.eql(
       [ { E: 1, T: 2, F: 3, '(': 4, id: 5 },
         { '+': 6 },
         { '*': 7 },
@@ -198,8 +198,7 @@ describe('LALR propagate lookahead', function(){
   })
 
   it('verify kernel items with propagated lookahead', function(){
-    parser.propagateLookahead();
-    expect(parser.propagateLookahead()).to.eql(
+    expect(parser.propagateLookahead().concat()).to.eql(
       [
         [
           {'head':'S_',
@@ -244,6 +243,19 @@ describe('LALR propagate lookahead', function(){
            'body':[{'expr':['L','=','R'],'dotIndex':3,'lookahead':['$']}]}
         ],
       ]
+    );
+
+    expect(parser.propagateLookahead().jumpTable).to.eql(
+      [ { S: 1, L: 2, R: 3, '*': 4, id: 5 },
+        {},
+        { '=': 6 },
+        {},
+        { L: 7, R: 8, '*': 4, id: 5 },
+        {},
+        { L: 7, R: 9, '*': 4, id: 5 },
+        {},
+        {},
+        {} ]
     );
   })
 })
