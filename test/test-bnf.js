@@ -22,7 +22,7 @@ describe('rule fetch & compare routines', function(){
   ];
 
   var tokens = [
-    '*', '+', 'id', '(', ')'
+    '*', '+', 'id', '(', ')', 'EOF'
   ];
 
   before(function(){
@@ -34,7 +34,7 @@ describe('rule fetch & compare routines', function(){
   })
 
   it('test symbols', function(done){
-    expect(bnf.symbols()).to.have.length(8);
+    expect(bnf.symbols()).to.have.length(9);
     done();
   });
 
@@ -120,7 +120,7 @@ describe('first & follow', function(){
   ];
 
   var tokens = [
-    '*', '+', 'id', '(', ')'
+    '*', '+', 'id', '(', ')', 'EOF'
   ];
 
   before(function(){
@@ -167,7 +167,7 @@ describe('first & follow', function(){
         '(': [ '(' ],
         ')': [ ')' ],
         '#': [ '#' ],
-        '$': [ '$' ],
+        'EOF': [ 'EOF' ],
         'E': [ '(', 'id' ],
         'E~': [ '+', '' ],
         'T': [ '(', 'id' ],
@@ -189,9 +189,9 @@ describe('first & follow', function(){
   it('generate Follow table', function(done){
     var followTable = bnf.__get__('generateFollowTable')();
     var expectFollowTable =
-      { 'E': [ '$', '+', ')' ],
-        'T': [ '$', '+', ')', '*' ],
-        'F': [ '$', '+', ')', '*' ]
+      { 'E': [ 'EOF', '+', ')' ],
+        'T': [ 'EOF', '+', ')', '*' ],
+        'F': [ 'EOF', '+', ')', '*' ]
       };
 
     expect(followTable).to.eql(expectFollowTable);

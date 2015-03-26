@@ -55,13 +55,13 @@ describe('ambiguous grammer', function(){
           '(': 'shift 2', 'id': 'shift 3'
         },
         {
-          '$': 'accept', '+': 'shift 4', '*': 'shift 5'
+          'EOF': 'accept', '+': 'shift 4', '*': 'shift 5'
         },
         {
           '(': 'shift 2', 'id': 'shift 3'
         },
         {
-          '$': 'reduce 1,3',
+          'EOF': 'reduce 1,3',
           ')': 'reduce 1,3',
           '*': 'reduce 1,3',
           '+': 'reduce 1,3'
@@ -76,19 +76,19 @@ describe('ambiguous grammer', function(){
           ')': 'shift 9', '+': 'shift 4', '*': 'shift 5'
         },
         {
-          '$': 'reduce 1,0',
+          'EOF': 'reduce 1,0',
           ')': 'reduce 1,0',
           '*': 'shift 5',
           '+': 'reduce 1,0'
         },
         {
-          '$': 'reduce 1,1',
+          'EOF': 'reduce 1,1',
           ')': 'reduce 1,1',
           '*': 'reduce 1,1',
           '+': 'reduce 1,1'
         },
         {
-          '$': 'reduce 1,2',
+          'EOF': 'reduce 1,2',
           ')': 'reduce 1,2',
           '*': 'reduce 1,2',
           '+': 'reduce 1,2'

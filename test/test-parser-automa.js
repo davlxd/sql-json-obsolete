@@ -25,7 +25,7 @@ describe('verify CLOSURE', function(){
     ];
 
     var tokens = [
-      '+', '*', '(', ')', 'id'
+      '+', '*', '(', ')', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -84,7 +84,7 @@ describe('verify GOTO', function(){
     ];
 
     var tokens = [
-      '+', '*', '(', ')', 'id'
+      '+', '*', '(', ')', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -191,7 +191,7 @@ describe('verify GOTO', function(){
 
 
   it('verify GOTO from itemSet1 to accept', function(){
-    var accept = parser.goto(itemSet1, '$');
+    var accept = parser.goto(itemSet1, 'EOF');
     expect(accept).to.eql('accept');
   })
 
@@ -228,7 +228,7 @@ describe('verify GOTO', function(){
     var nonAccept = parser.goto(itemSet3, 'E');
     expect(nonAccept).to.eql([]);
 
-    nonAccept = parser.goto(itemSet3, '$');
+    nonAccept = parser.goto(itemSet3, 'EOF');
     expect(nonAccept).to.eql([]);
 
     nonAccept = parser.goto(itemSet3, 'X');
@@ -333,7 +333,7 @@ describe('verify CLOSURE with lookahead', function(){
     ];
 
     var tokens = [
-      'd', 'c'
+      'd', 'c', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -345,17 +345,17 @@ describe('verify CLOSURE with lookahead', function(){
   })
 
   it('verify initial CLOSURE', function(){
-    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['$'];
+    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['EOF'];
     var itemSet0 = parser.closure([augmentRule]);
 
 
     expect(itemSet0).to.eql(
       [
         {'head': 'S_',
-         'body': [{'expr': ['S'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['S'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         },
         {'head': 'S',
-         'body': [{'expr': ['C', 'C'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['C', 'C'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         },
         {'head': 'C',
          'body': [{'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['c', 'd']},
@@ -385,7 +385,7 @@ describe('verify GOTO with lookahead', function(){
     ];
 
     var tokens = [
-      'd', 'c'
+      'd', 'c', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -395,7 +395,7 @@ describe('verify GOTO with lookahead', function(){
     bnf.__set__('nonLeftRecursionYaccRules', []);
     parser.__set__('bnf', bnf);
 
-    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['$'];
+    var augmentRule = bnf.augmentRule(); augmentRule.body[0].lookahead = ['EOF'];
     itemSet0 = parser.closure([augmentRule]);
     itemSet1 =  parser.goto(itemSet0, 'S');
     itemSet2 =  parser.goto(itemSet0, 'C');
@@ -412,7 +412,7 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet1).to.eql(
       [
         {'head': 'S_',
-         'body': [{'expr': ['S'], 'dotIndex': 1, 'lookahead': ['$']}]
+         'body': [{'expr': ['S'], 'dotIndex': 1, 'lookahead': ['EOF']}]
         }
       ]
     );
@@ -421,10 +421,10 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet0).to.eql(
       [
         {'head': 'S_',
-         'body': [{'expr': ['S'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['S'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         },
         {'head': 'S',
-         'body': [{'expr': ['C', 'C'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['C', 'C'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         },
         {'head': 'C',
          'body': [{'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['c', 'd']},
@@ -438,11 +438,11 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet2).to.eql(
       [
         {'head': 'S',
-         'body': [{'expr': ['C', 'C'], 'dotIndex': 1, 'lookahead': ['$']}]
+         'body': [{'expr': ['C', 'C'], 'dotIndex': 1, 'lookahead': ['EOF']}]
         },
         {'head': 'C',
-         'body': [{'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['$']},
-                  {'expr': ['d'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['EOF']},
+                  {'expr': ['d'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         }
       ]
     );
@@ -474,7 +474,7 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet5).to.eql(
       [
         {'head': 'S',
-         'body': [{'expr': ['C', 'C'], 'dotIndex': 2, 'lookahead': ['$']}]
+         'body': [{'expr': ['C', 'C'], 'dotIndex': 2, 'lookahead': ['EOF']}]
         }
       ]
     );
@@ -484,9 +484,9 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet6).to.eql(
       [
         {'head': 'C',
-         'body': [{'expr': ['c', 'C'], 'dotIndex': 1, 'lookahead': ['$']},
-                  {'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['$']},
-                  {'expr': ['d'], 'dotIndex': 0, 'lookahead': ['$']}]
+         'body': [{'expr': ['c', 'C'], 'dotIndex': 1, 'lookahead': ['EOF']},
+                  {'expr': ['c', 'C'], 'dotIndex': 0, 'lookahead': ['EOF']},
+                  {'expr': ['d'], 'dotIndex': 0, 'lookahead': ['EOF']}]
         }
       ]
     );
@@ -496,7 +496,7 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet7).to.eql(
       [
         {'head': 'C',
-         'body': [{'expr': ['d'], 'dotIndex': 1, 'lookahead': ['$']}]
+         'body': [{'expr': ['d'], 'dotIndex': 1, 'lookahead': ['EOF']}]
         }
       ]
     );
@@ -516,7 +516,7 @@ describe('verify GOTO with lookahead', function(){
     expect(itemSet9).to.eql(
       [
         {'head': 'C',
-         'body': [{'expr': ['c', 'C'], 'dotIndex': 2, 'lookahead': ['$']}]
+         'body': [{'expr': ['c', 'C'], 'dotIndex': 2, 'lookahead': ['EOF']}]
         }
       ]
     );

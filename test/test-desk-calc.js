@@ -34,7 +34,7 @@ describe('ambiguous grammer', function(){
     ];
 
     var tokens = [
-      '\n', '+', '-', '*', '/', '(', ')', '-', 'NUMBER'
+      '\n', '+', '-', '*', '/', '(', ')', '-', 'NUMBER', 'EOF'
     ];
 
     var ambiguousRules = {

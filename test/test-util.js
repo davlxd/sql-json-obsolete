@@ -15,7 +15,7 @@ describe('Util function test', function(){
   });
 
   it('arrayEqual', function(){
-    var arr0 = [ [ [ '$' ] ],
+    var arr0 = [ [ [ 'EOF' ] ],
                  [ [], [ '+' ] ],
                  [ [ '+', ')' ], [ '+', '*', ')' ] ],
                  [ [ '+', '*', ')' ] ],

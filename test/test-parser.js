@@ -27,7 +27,7 @@ describe('SLR', function(){
     ];
 
     var tokens = [
-      '+', '*', '(', ')', 'id'
+      '+', '*', '(', ')', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -96,16 +96,16 @@ describe('SLR', function(){
           '(': 'shift 4', id: 'shift 5'
         },
         {
-          '$': 'accept', '+': 'shift 6'
+          'EOF': 'accept', '+': 'shift 6'
         },
         {
-          '$': { head: 'E', body: ['T'] },
+          'EOF': { head: 'E', body: ['T'] },
           '+': { head: 'E', body: ['T'] },
           ')': { head: 'E', body: ['T'] },
           '*': 'shift 7'
         },
         {
-          '$': { head: 'T', body: ['F'] },
+          'EOF': { head: 'T', body: ['F'] },
           '+': { head: 'T', body: ['F'] },
           ')': { head: 'T', body: ['F'] },
           '*': { head: 'T', body: ['F'] }
@@ -114,7 +114,7 @@ describe('SLR', function(){
           '(': 'shift 4', id: 'shift 5'
         },
         {
-          '$': { head: 'F', body: ['id'] },
+          'EOF': { head: 'F', body: ['id'] },
           '+': { head: 'F', body: ['id'] },
           ')': { head: 'F', body: ['id'] },
           '*': { head: 'F', body: ['id'] }
@@ -129,19 +129,19 @@ describe('SLR', function(){
           ')': 'shift 11', '+': 'shift 6'
         },
         {
-          '$': { head: 'E', body: ['E', '+', 'T'] },
+          'EOF': { head: 'E', body: ['E', '+', 'T'] },
           '+': { head: 'E', body: ['E', '+', 'T'] },
           ')': { head: 'E', body: ['E', '+', 'T'] },
           '*': 'shift 7'
         },
         {
-          '$': { head: 'T', body: ['T', '*', 'F'] },
+          'EOF': { head: 'T', body: ['T', '*', 'F'] },
           '+': { head: 'T', body: ['T', '*', 'F'] },
           ')': { head: 'T', body: ['T', '*', 'F'] },
           '*': { head: 'T', body: ['T', '*', 'F'] }
         },
         {
-          '$': { head: 'F', body: ['(', 'E', ')'] },
+          'EOF': { head: 'F', body: ['(', 'E', ')'] },
           '+': { head: 'F', body: ['(', 'E', ')'] },
           ')': { head: 'F', body: ['(', 'E', ')'] },
           '*': { head: 'F', body: ['(', 'E', ')'] }
@@ -186,7 +186,7 @@ describe('LALR propagate lookahead', function(){
     ];
 
     var tokens = [
-      '=', '*', 'id'
+      '=', '*', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -236,45 +236,45 @@ describe('LALR propagate lookahead', function(){
       [
         [
           {'head':'S_',
-           'body':[{'expr':['S'],'dotIndex':0,'lookahead':['$']}]}
+           'body':[{'expr':['S'],'dotIndex':0,'lookahead':['EOF']}]}
         ],
         [
           {'head':'S_',
-           'body':[{'expr':['S'],'dotIndex':1,'lookahead':['$']}]}
+           'body':[{'expr':['S'],'dotIndex':1,'lookahead':['EOF']}]}
         ],
         [
           {'head':'S',
-           'body':[{'expr':['L','=','R'],'dotIndex':1,'lookahead':['$']}]},
+           'body':[{'expr':['L','=','R'],'dotIndex':1,'lookahead':['EOF']}]},
           {'head':'R',
-           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['$']}]}
+           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['EOF']}]}
         ],
         [
           {'head':'S',
-           'body':[{'expr':['R'],'dotIndex':1,'lookahead':['$']}]}
+           'body':[{'expr':['R'],'dotIndex':1,'lookahead':['EOF']}]}
         ],
         [
           {'head':'L',
-           'body':[{'expr':['*','R'],'dotIndex':1,'lookahead':['$','=']}]}
+           'body':[{'expr':['*','R'],'dotIndex':1,'lookahead':['=','EOF']}]}
         ],
         [
           {'head':'L',
-           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$','=']}]}
+           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['=','EOF']}]}
         ],
         [
           {'head':'S',
-           'body':[{'expr':['L','=','R'],'dotIndex':2,'lookahead':['$']}]}
+           'body':[{'expr':['L','=','R'],'dotIndex':2,'lookahead':['EOF']}]}
         ],
         [
           {'head':'R',
-           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['$','=']}]}
+           'body':[{'expr':['L'],'dotIndex':1,'lookahead':['=','EOF']}]}
         ],
         [
           {'head':'L',
-           'body':[{'expr':['*','R'],'dotIndex':2,'lookahead':['$','=']}]}
+           'body':[{'expr':['*','R'],'dotIndex':2,'lookahead':['=','EOF']}]}
         ],
         [
           {'head':'S',
-           'body':[{'expr':['L','=','R'],'dotIndex':3,'lookahead':['$']}]}
+           'body':[{'expr':['L','=','R'],'dotIndex':3,'lookahead':['EOF']}]}
         ],
       ]
     );
@@ -314,7 +314,7 @@ describe('LALR propagate lookahead case 2', function(){
     ];
 
     var tokens = [
-      '+', '*', '(', ')', 'id'
+      '+', '*', '(', ')', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -368,59 +368,59 @@ describe('LALR propagate lookahead case 2', function(){
       [
         [
           {'head':'E_',
-           'body':[{'expr':['E'],'dotIndex':0,'lookahead':['$']}]}
+           'body':[{'expr':['E'],'dotIndex':0,'lookahead':['EOF']}]}
         ],
         [
           {'head':'E_',
-           'body':[{'expr':['E'],'dotIndex':1,'lookahead':['$']}]},
+           'body':[{'expr':['E'],'dotIndex':1,'lookahead':['EOF']}]},
           {'head':'E',
-           'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':['$','+']}]}
-        ],
-        [
-          {'head':'E',
-           'body':[{'expr':['T'],'dotIndex':1,'lookahead':['$',')','+']}]},
-          {'head':'T',
-           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
-        ],
-        [
-          {'head':'T',
-           'body':[{'expr':['F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
-        ],
-        [
-          {'head':'F',
-           'body':[{'expr':['(','E',')'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
-        ],
-        [
-          {'head':'F',
-           'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+           'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':['+','EOF']}]}
         ],
         [
           {'head':'E',
-           'body':[{'expr':['E','+','T'],'dotIndex':2,'lookahead':['$',')','+']}]}
+           'body':[{'expr':['T'],'dotIndex':1,'lookahead':[')','+','EOF']}]},
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':[')','*','+','EOF']}]}
         ],
         [
           {'head':'T',
-           'body':[{'expr':['T','*','F'],'dotIndex':2,'lookahead':['$',')','*','+']}]}
+           'body':[{'expr':['F'],'dotIndex':1,'lookahead':[')','*','+','EOF']}]}
         ],
         [
           {'head':'F',
-           'body':[{'expr':['(','E',')'],'dotIndex':2,'lookahead':['$',')','*','+']}]},
+           'body':[{'expr':['(','E',')'],'dotIndex':1,'lookahead':[')','*','+','EOF']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['id'],'dotIndex':1,'lookahead':[')','*','+','EOF']}]}
+        ],
+        [
+          {'head':'E',
+           'body':[{'expr':['E','+','T'],'dotIndex':2,'lookahead':[')','+','EOF']}]}
+        ],
+        [
+          {'head':'T',
+           'body':[{'expr':['T','*','F'],'dotIndex':2,'lookahead':[')','*','+','EOF']}]}
+        ],
+        [
+          {'head':'F',
+           'body':[{'expr':['(','E',')'],'dotIndex':2,'lookahead':[')','*','+','EOF']}]},
           {'head':'E',
            'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':[')','+']}]}
         ],
         [
           {'head':'E',
-           'body':[{'expr':['E','+','T'],'dotIndex':3,'lookahead':['$',')','+']}]},
+           'body':[{'expr':['E','+','T'],'dotIndex':3,'lookahead':[')','+','EOF']}]},
           {'head':'T',
-           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$',')','*','+']}]}
+           'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':[')','*','+','EOF']}]}
         ],
         [
           {'head':'T',
-           'body':[{'expr':['T','*','F'],'dotIndex':3,'lookahead':['$',')','*','+']}]}
+           'body':[{'expr':['T','*','F'],'dotIndex':3,'lookahead':[')','*','+','EOF']}]}
         ],
         [
           {'head':'F',
-           'body':[{'expr':['(','E',')'],'dotIndex':3,'lookahead':['$',')','*','+']}]}
+           'body':[{'expr':['(','E',')'],'dotIndex':3,'lookahead':[')','*','+','EOF']}]}
         ]
       ]
     );
@@ -458,7 +458,7 @@ describe('LALR parsing table', function(){
     ];
 
     var tokens = [
-      'd', 'c'
+      'd', 'c', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -479,7 +479,7 @@ describe('LALR parsing table', function(){
           'c': 'shift 4', d: 'shift 3'
         },
         {
-          '$': 'accept'
+          'EOF': 'accept'
         },
         {
           'c': 'shift 4', d: 'shift 3'
@@ -487,18 +487,18 @@ describe('LALR parsing table', function(){
         {
           'c': 'reduce 2,1',
           'd': 'reduce 2,1',
-          '$': 'reduce 2,1'
+          'EOF': 'reduce 2,1'
         },
         {
           'c': 'shift 4', d: 'shift 3'
         },
         {
-          '$': 'reduce 1,0'
+          'EOF': 'reduce 1,0'
         },
         {
           'c': 'reduce 2,0',
           'd': 'reduce 2,0',
-          '$': 'reduce 2,0'
+          'EOF': 'reduce 2,0'
         }
       ]
     );

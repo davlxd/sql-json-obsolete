@@ -27,7 +27,7 @@ describe('SLR', function(){
     ];
 
     var tokens = [
-      '+', '*', '(', ')', 'id'
+      '+', '*', '(', ')', 'id', 'EOF'
     ];
 
     bnf.__set__('yaccRules', yaccRules);
@@ -48,7 +48,7 @@ describe('SLR', function(){
     parser.inspectItemSet(actionTable);
     console.log(gotoTable);
 
-    var arr = ['id', '*', 'id', '+', 'id', '$'], index = 0;
+    var arr = ['id', '*', 'id', '+', 'id', 'EOF'], index = 0;
     parser.parsing(function(){
       return arr[index++];
     });
