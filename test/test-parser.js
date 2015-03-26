@@ -54,6 +54,7 @@ describe('SLR', function(){
 
   it('verify items', function(){
     var collection = parser.items();
+
     expect(collection).to.have.length(12);
 
     expect(bnf.itemSetEqual(collection[0], itemSetArray[0])).to.be.true;
@@ -69,6 +70,20 @@ describe('SLR', function(){
     expect(bnf.itemSetEqual(collection[10], itemSetArray[10])).to.be.true;
     expect(bnf.itemSetEqual(collection[11], itemSetArray[11])).to.be.true;
 
+    expect(collection.gotoTable).to.eql(
+      [ { E: 1, T: 2, F: 3, '(': 4, id: 5 },
+        { '+': 6 },
+        { '*': 7 },
+        {},
+        { E: 8, T: 2, F: 3, '(': 4, id: 5 },
+        {},
+        { T: 9, F: 3, '(': 4, id: 5 },
+        { F: 10, '(': 4, id: 5 },
+        { '+': 6, ')': 11 },
+        { '*': 7 },
+        {},
+        {} ]
+    );
   })
 
   it('SLR parsing table', function(){
@@ -155,8 +170,6 @@ describe('SLR', function(){
 
 
 describe('LALR propagate lookahead', function(){
-  var itemSetArray = [];
-
   before(function(){
     var yaccRules = [
       {'head': 'S',
@@ -235,6 +248,104 @@ describe('LALR propagate lookahead', function(){
   })
 })
 
+
+
+describe('LALR propagate lookahead case 2', function(){
+  before(function(){
+    var yaccRules = [
+      {'head': 'E',
+       'body': [{'expr': ['E', '+', 'T']},
+                {'expr': ['T']}]
+      },
+      {'head': 'T',
+       'body': [{'expr': ['T', '*', 'F']},
+                {'expr': ['F']}]
+      },
+      {'head': 'F',
+       'body': [{'expr': ['(', 'E', ')']},
+                {'expr': ['id']}]
+      },
+    ];
+
+    var tokens = [
+      '+', '*', '(', ')', 'id'
+    ];
+
+    bnf.__set__('yaccRules', yaccRules);
+    bnf.__set__('tokens', tokens);
+    bnf.__set__('firstTable', {});
+    bnf.__set__('followTable', {});
+    bnf.__set__('nonLeftRecursionYaccRules', []);
+
+    parser.__set__('bnf', bnf);
+
+  })
+
+  it('verify kernel items with propagated lookahead case 2', function(){
+// parser.inspectCollection(parser.items());
+parser.inspectCollection(parser.propagateLookahead());
+    // expect(parser.propagateLookahead()).to.eql(
+    //   [
+    //     [
+    //       {'head':'E_',
+    //        'body':[{'expr':['E'],'dotIndex':0,'lookahead':['$']}]}
+    //     ],
+    //     [
+    //       {'head':'E_',
+    //        'body':[{'expr':['E'],'dotIndex':1,'lookahead':['$']}]},
+    //       {'head':'E',
+    //        'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':['$','+']}]}
+    //     ],
+    //     [
+    //       {'head':'E',
+    //        'body':[{'expr':['T'],'dotIndex':1,'lookahead':['$','+',')']}]},
+    //       {'head':'T',
+    //        'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$','+','*',')']}]}
+    //     ],
+    //     [
+    //       {'head':'T',
+    //        'body':[{'expr':['F'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'F',
+    //        'body':[{'expr':['(','E',')'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'F',
+    //        'body':[{'expr':['id'],'dotIndex':1,'lookahead':['$','*','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'E',
+    //        'body':[{'expr':['E','+','T'],'dotIndex':2,'lookahead':['$','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'T',
+    //        'body':[{'expr':['T','*','F'],'dotIndex':2,'lookahead':['$','*','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'F',
+    //        'body':[{'expr':['(','E',')'],'dotIndex':2,'lookahead':['$','*','+',')']}]},
+    //       {'head':'E',
+    //        'body':[{'expr':['E','+','T'],'dotIndex':1,'lookahead':[')','+']}]}
+    //     ],
+    //     [
+    //       {'head':'F',
+    //        'body':[{'expr':['E','+','T'],'dotIndex':3,'lookahead':['$','+',')']}]},
+    //       {'head':'T',
+    //        'body':[{'expr':['T','*','F'],'dotIndex':1,'lookahead':['$','+','*',')']}]}
+    //     ],
+    //     [
+    //       {'head':'T',
+    //        'body':[{'expr':['T','*','F'],'dotIndex':3,'lookahead':['$','*','+',')']}]}
+    //     ],
+    //     [
+    //       {'head':'F',
+    //        'body':[{'expr':['(','E',')'],'dotIndex':3,'lookahead':['$','*','+',')']}]}
+    //     ]
+    //   ]
+    // );
+  })
+})
 
 
 describe('LALR parsing table', function(){
