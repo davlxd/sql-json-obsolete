@@ -178,7 +178,7 @@ describe('ambiguous grammer', function(){
     });
 
     expect(console.log.calledOnce).to.be.true;
-    expect(console.log.getCall(0).args[0]).to.equal('=6.8');
+    expect(console.log.getCall(0).args[0]).to.equal('=0.5');
   })
 
 })

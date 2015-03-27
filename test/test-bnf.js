@@ -203,7 +203,7 @@ describe('first & follow', function(){
     expect(bnf.indexOfRule('F', ['id'])).to.eql([2, 1]);
 
     expect(bnf.getRuleByIndex([2, 1])).to.eql(
-      { head: 'F', expr: [ 'id' ], semAction: undefined }
+      { head: 'F', expr: [ 'id' ]}
     );
   })
 })
