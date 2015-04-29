@@ -17,7 +17,7 @@ describe('ambiguous grammer', function(){
        'body': [
          {
            'expr': ['lines', 'expr', '\n'],
-           'semAction': function(var0, var1, var2){ console.log('=' + var1.value); }
+           'action': function(var0, var1, var2){ console.log('=' + var1.value); }
          },
          {
            'expr': ['lines', '\n']
@@ -32,31 +32,31 @@ describe('ambiguous grammer', function(){
        'body': [
          {
            'expr': ['expr', '+', 'expr'],
-           'semAction': function(var0, var1, var2){ return var0.value + var2.value; }
+           'action': function(var0, var1, var2){ return var0.value + var2.value; }
          },
          {
            'expr': ['expr', '-', 'expr'],
-           'semAction': function(var0, var1, var2){ return var0.value - var2.value; }
+           'action': function(var0, var1, var2){ return var0.value - var2.value; }
          },
          {
            'expr': ['expr', '*', 'expr'],
-           'semAction': function(var0, var1, var2){ return var0.value * var2.value; }
+           'action': function(var0, var1, var2){ return var0.value * var2.value; }
          },
          {
            'expr': ['expr', '/', 'expr'],
-           'semAction': function(var0, var1, var2){ return var0.value / var2.value; }
+           'action': function(var0, var1, var2){ return var0.value / var2.value; }
          },
          {
            'expr': ['(', 'expr', ')'],
-           'semAction': function(var0, var1, var2){ return var1.value; }
+           'action': function(var0, var1, var2){ return var1.value; }
          },
          {
            'expr': ['-', 'expr'], 'prec': 'UMINUS',
-           'semAction': function(var0, var1){ return - var1.value; }
+           'action': function(var0, var1){ return - var1.value; }
          },
          {
            'expr': ['NUMBER'],
-           'semAction': function(var0){ return var0.value; }
+           'action': function(var0){ return var0.value; }
          }
        ]
       }
